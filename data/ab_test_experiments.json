@@ -41,14 +41,73 @@
           "year": 2025,
           "model": "Random Forest"
         }
+      },
+      {
+        "timestamp": "2026-04-08T02:16:14.778007",
+        "user_id": "cd3df675",
+        "variant": "B",
+        "event": "page_view",
+        "metadata": {
+          "variant": "B"
+        }
+      },
+      {
+        "timestamp": "2026-04-08T02:16:51.234317",
+        "user_id": "cd3df675",
+        "variant": "B",
+        "event": "page_view",
+        "metadata": {
+          "variant": "B"
+        }
+      },
+      {
+        "timestamp": "2026-04-08T02:18:17.501310",
+        "user_id": "cd3df675",
+        "variant": "B",
+        "event": "page_view",
+        "metadata": {
+          "variant": "B"
+        }
+      },
+      {
+        "timestamp": "2026-04-08T02:18:20.216518",
+        "user_id": "cd3df675",
+        "variant": "B",
+        "event": "page_view",
+        "metadata": {
+          "variant": "B"
+        }
+      },
+      {
+        "timestamp": "2026-04-08T02:18:20.679636",
+        "user_id": "cd3df675",
+        "variant": "B",
+        "event": "generate_click",
+        "metadata": {
+          "variant": "B",
+          "state": "Alabama",
+          "sector": "Commercial carbon dioxide emissions",
+          "fuel": "All Fuels",
+          "year": 2025,
+          "model": "Random Forest \u2b50"
+        }
+      },
+      {
+        "timestamp": "2026-04-08T02:18:44.957637",
+        "user_id": "cd3df675",
+        "variant": "B",
+        "event": "page_view",
+        "metadata": {
+          "variant": "B"
+        }
       }
     ],
     "variants": {
       "B": {
-        "total": 4,
+        "total": 10,
         "events": {
-          "page_view": 3,
-          "generate_click": 1
+          "page_view": 8,
+          "generate_click": 2
         }
       }
     }

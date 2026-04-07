@@ -15,13 +15,15 @@ st.set_page_config(page_title="Future Predictions", page_icon="🔮")
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --primary: #00ffd5;
-    --secondary: #ff00aa;
+    --primary: #00ff7f;
+    --secondary: #ff00ff;
     --bg-dark: #050508;
-    --bg-card: rgba(15, 15, 25, 0.95);
+    --bg-glass: rgba(15, 15, 15, 0.7);
+    --glow: 0 0 30px rgba(0, 255, 127, 0.6);
+    --glow-pink: 0 0 30px rgba(255, 0, 255, 0.6);
 }
 
 * { box-sizing: border-box; }
@@ -32,6 +34,19 @@ st.markdown("""
     color: #ffffff !important;
 }
 
+/* CRT Scanline */
+.scanline-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px);
+}
+
+/* Background Grid */
 .bg-grid {
     position: fixed;
     top: 0;
@@ -40,8 +55,8 @@ st.markdown("""
     height: 100%;
     z-index: -1;
     background-image: 
-        linear-gradient(rgba(0, 255, 213, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 213, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0, 255, 127, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 127, 0.02) 1px, transparent 1px);
     background-size: 60px 60px;
     animation: gridScroll 30s linear infinite;
 }
@@ -56,7 +71,7 @@ st.markdown("""
     width: 500px;
     height: 500px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 255, 213, 0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 255, 127, 0.05) 0%, transparent 70%);
     top: -150px;
     right: -150px;
     animation: orbFloat 20s ease-in-out infinite;
@@ -68,46 +83,61 @@ st.markdown("""
     50% { transform: translate(30px, 30px) scale(1.1); }
 }
 
+/* Typography */
 h1, h2, h3 {
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-weight: 700 !important;
     letter-spacing: 3px !important;
     text-transform: uppercase !important;
-    background: linear-gradient(90deg, #00ffd5, #00b8a9, #00ffd5);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 3s linear infinite;
-}
-
-@keyframes shimmer {
-    to { background-position: 200% center; }
+    color: #00ff7f !important;
 }
 
 h1 { font-size: 2.5rem !important; }
 
+/* Futuristic Cards with Corner Brackets */
 .futuristic-card {
     background: linear-gradient(135deg, rgba(20, 20, 35, 0.9) 0%, rgba(10, 10, 20, 0.95) 100%) !important;
-    border: 1px solid rgba(0, 255, 213, 0.2) !important;
-    border-radius: 20px !important;
+    border: none !important;
+    border-radius: 0px !important;
     padding: 25px !important;
-    backdrop-filter: blur(10px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    position: relative;
+    transition: all 0.4s ease !important;
+}
+
+.futuristic-card::before,
+.futuristic-card::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-color: #00ff7f;
+    border-style: solid;
+}
+
+.futuristic-card::before {
+    top: -1px;
+    left: -1px;
+    border-width: 2px 0 0 2px;
+}
+
+.futuristic-card::after {
+    bottom: -1px;
+    right: -1px;
+    border-width: 0 2px 2px 0;
 }
 
 .futuristic-card:hover {
     transform: translateY(-5px) !important;
-    border-color: #00ffd5 !important;
-    box-shadow: 0 15px 50px rgba(0, 255, 213, 0.15) !important;
+    box-shadow: 0 15px 50px rgba(0, 255, 127, 0.15) !important;
 }
 
+/* Hero Prediction Box */
 .prediction-box {
-    background: linear-gradient(135deg, rgba(0, 255, 213, 0.15) 0%, rgba(15, 15, 25, 0.98) 100%) !important;
-    padding: 50px !important;
-    border-radius: 25px !important;
-    border: 2px solid #00ffd5 !important;
+    background: linear-gradient(135deg, rgba(0, 255, 127, 0.15) 0%, rgba(15, 15, 25, 0.98) 100%) !important;
+    padding: 60px !important;
+    border: 2px solid #00ff7f !important;
     text-align: center !important;
-    box-shadow: 0 0 60px rgba(0, 255, 213, 0.3), inset 0 0 40px rgba(0, 255, 213, 0.05) !important;
+    box-shadow: 0 0 80px rgba(0, 255, 127, 0.4), inset 0 0 40px rgba(0, 255, 127, 0.05) !important;
     position: relative;
     overflow: hidden;
 }
@@ -119,7 +149,7 @@ h1 { font-size: 2.5rem !important; }
     left: -50%;
     width: 200%;
     height: 200%;
-    background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 255, 213, 0.1) 60deg, transparent 120deg);
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 255, 127, 0.1) 60deg, transparent 120deg);
     animation: rotate 4s linear infinite;
 }
 
@@ -128,33 +158,60 @@ h1 { font-size: 2.5rem !important; }
     100% { transform: rotate(360deg); }
 }
 
+/* Hero Number with Neon Glow */
 .prediction-value {
-    font-family: 'Orbitron', sans-serif !important;
-    font-size: 4rem !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 5rem !important;
     font-weight: 800 !important;
-    background: linear-gradient(135deg, #00ffd5, #00b8a9);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #00ff7f !important;
+    text-shadow: 0 0 40px rgba(0, 255, 127, 0.8), 0 0 80px rgba(0, 255, 127, 0.4) !important;
     position: relative;
     z-index: 1;
+    line-height: 1;
 }
 
 .prediction-unit {
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
     color: rgba(255, 255, 255, 0.5) !important;
     letter-spacing: 3px !important;
+    font-family: 'JetBrains Mono', monospace !important;
     position: relative;
     z-index: 1;
 }
 
+/* Confidence Band */
+.confidence-band {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 0px;
+    border: 1px solid rgba(0, 255, 127, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.confidence-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 2px;
+}
+
+.confidence-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
+    color: #00ff7f;
+}
+
+/* Buttons */
 .stButton > button {
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-weight: 600 !important;
     letter-spacing: 3px !important;
     text-transform: uppercase !important;
-    background: linear-gradient(135deg, #00ffd5 0%, #00a896 100%) !important;
+    background: linear-gradient(135deg, #00ff7f 0%, #00cc66 100%) !important;
     border: none !important;
-    border-radius: 30px !important;
+    border-radius: 0px !important;
     color: #050508 !important;
     padding: 16px 40px !important;
     transition: all 0.3s ease !important;
@@ -162,50 +219,52 @@ h1 { font-size: 2.5rem !important; }
 
 .stButton > button:hover {
     transform: scale(1.03) !important;
-    box-shadow: 0 10px 40px rgba(0, 255, 213, 0.4) !important;
+    box-shadow: 0 10px 40px rgba(0, 255, 127, 0.4) !important;
 }
 
+/* Select Boxes */
 .stSelectbox > div > div:first-child {
-    background: rgba(15, 15, 25, 0.95) !important;
-    border: 1px solid rgba(0, 255, 213, 0.3) !important;
-    border-radius: 12px !important;
+    background: rgba(15, 15, 25, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(0, 255, 127, 0.3) !important;
+    border-radius: 0px !important;
     color: #fff !important;
+    font-family: 'JetBrains Mono', monospace !important;
 }
 
 .stRadio [role="radiogroup"] label {
+    font-family: 'JetBrains Mono', monospace !important;
     color: rgba(255,255,255,0.7) !important;
 }
 
-.stRadio [role="radiogroup"] label:hover {
-    color: #00ffd5 !important;
-}
-
 .stTextArea textarea {
-    background: rgba(15, 15, 25, 0.95) !important;
-    border: 1px solid rgba(0, 255, 213, 0.3) !important;
-    border-radius: 12px !important;
+    background: rgba(15, 15, 25, 0.9) !important;
+    border: 1px solid rgba(0, 255, 127, 0.3) !important;
+    border-radius: 0px !important;
     color: #fff !important;
+    font-family: 'JetBrains Mono', monospace !important;
 }
 
 [data-testid="stMetricValue"] {
-    font-family: 'Orbitron', sans-serif !important;
-    color: #00ffd5 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    color: #00ff7f !important;
+    text-shadow: 0 0 10px rgba(0, 255, 127, 0.5) !important;
 }
 
+/* Progress */
 .stProgress > div > div > div {
-    background: linear-gradient(90deg, #00ffd5, #00a896, #ff00aa) !important;
-    border-radius: 10px !important;
-    box-shadow: 0 0 20px rgba(0, 255, 213, 0.5) !important;
+    background: linear-gradient(90deg, #00ff7f, #00cc66, #ff00ff) !important;
+    border-radius: 0px !important;
+    box-shadow: 0 0 20px rgba(0, 255, 127, 0.5) !important;
 }
 
 .variant-badge {
-    background: linear-gradient(135deg, rgba(0,255,213,0.15), rgba(255,0,170,0.15));
+    background: linear-gradient(135deg, rgba(0,255,127,0.15), rgba(255,0,255,0.15));
     padding: 10px 20px;
-    border-radius: 25px;
-    border: 1px solid rgba(0,255,213,0.4);
-    font-family: 'Orbitron', sans-serif;
+    border: 1px solid rgba(0,255,127,0.4);
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.75rem;
-    color: #00ffd5;
+    color: #00ff7f;
     letter-spacing: 2px;
 }
 
@@ -217,11 +276,12 @@ h1 { font-size: 2.5rem !important; }
 .fade-in {
     animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     opacity: 0;
+}
 
 .stSpinner {
-    border: 3px solid rgba(0, 255, 213, 0.1) !important;
-    border-top: 3px solid #00ffd5 !important;
-    border-radius: 50% !important;
+    border: 3px solid rgba(0, 255, 127, 0.1) !important;
+    border-top: 3px solid #00ff7f !important;
+    border-radius: 0px !important;
     width: 50px !important;
     height: 50px !important;
     animation: spin 1s linear infinite;
@@ -231,8 +291,13 @@ h1 { font-size: 2.5rem !important; }
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #00ff7f; border-radius: 2px; }
 </style>
 
+<div class="scanline-overlay"></div>
 <div class="bg-grid"></div>
 <div class="glow-orb"></div>
 """, unsafe_allow_html=True)
@@ -240,7 +305,7 @@ h1 { font-size: 2.5rem !important; }
 st.markdown("""
 <div style="text-align: center; padding: 40px 20px 30px;">
     <h1>Future Predictions</h1>
-    <p style="color: rgba(255,255,255,0.4); font-size: 1rem; letter-spacing: 4px; margin-top: 10px;">
+    <p style="color: rgba(255,255,255,0.4); font-size: 1rem; letter-spacing: 4px; margin-top: 10px; font-family: 'JetBrains Mono', monospace;">
         AI-POWERED CO2 EMISSION FORECASTING
     </p>
 </div>
@@ -267,7 +332,7 @@ col1, col2 = st.columns([1, 2], gap="large")
 with col1:
     st.markdown("""
     <div class="futuristic-card" style="margin-bottom: 20px;">
-        <h3 style="font-size: 1rem !important; color: #00ffd5 !important; margin: 0 0 20px 0;">INPUT PARAMETERS</h3>
+        <h3 style="font-size: 0.9rem !important; color: #00ff7f !important; margin: 0 0 20px 0; font-family: 'JetBrains Mono', monospace;">// INPUT PARAMETERS</h3>
     </div>
     """, unsafe_allow_html=True)
     
@@ -279,7 +344,7 @@ with col1:
     
     st.markdown("""
     <div class="futuristic-card" style="margin-bottom: 20px;">
-        <h3 style="font-size: 1rem !important; color: #00ffd5 !important; margin: 0 0 20px 0;">PREDICTION YEAR</h3>
+        <h3 style="font-size: 0.9rem !important; color: #00ff7f !important; margin: 0 0 20px 0; font-family: 'JetBrains Mono', monospace;">// PREDICTION YEAR</h3>
     </div>
     """, unsafe_allow_html=True)
     
@@ -298,7 +363,7 @@ with col1:
     
     st.markdown("""
     <div class="futuristic-card">
-        <h3 style="font-size: 1rem !important; color: #ff00aa !important; margin: 0 0 20px 0;">MODEL SELECTION</h3>
+        <h3 style="font-size: 0.9rem !important; color: #ff00ff !important; margin: 0 0 20px 0; font-family: 'JetBrains Mono', monospace;">// MODEL SELECTION</h3>
     </div>
     """, unsafe_allow_html=True)
     
@@ -309,7 +374,7 @@ with col1:
 with col2:
     st.markdown("""
     <div class="futuristic-card" style="margin-bottom: 20px;">
-        <h3 style="font-size: 1rem !important; color: #00ffd5 !important; margin: 0;">PREDICTION RESULTS</h3>
+        <h3 style="font-size: 0.9rem !important; color: #00ff7f !important; margin: 0; font-family: 'JetBrains Mono', monospace;">// PREDICTION RESULTS</h3>
     </div>
     """, unsafe_allow_html=True)
     
@@ -325,7 +390,7 @@ with col2:
             'model': model_type
         })
         
-        with st.spinner("Processing..."):
+        with st.spinner("PROCESSING..."):
             try:
                 features = utils.prepare_input_features(input_state, input_sector, input_fuel, input_year, df)
                 
@@ -364,14 +429,12 @@ with col2:
                     
                     st.markdown(f"""
                     <div class="prediction-box fade-in">
-                        <p style="color: rgba(255,255,255,0.5); margin: 0 0 15px 0; font-size: 0.9rem; letter-spacing: 2px; position: relative; z-index: 1;">PREDICTED CO2 EMISSIONS</p>
+                        <p style="color: rgba(255,255,255,0.5); margin: 0 0 20px 0; font-size: 0.85rem; letter-spacing: 3px; font-family: 'JetBrains Mono', monospace; position: relative; z-index: 1;">PREDICTED CO2 EMISSIONS</p>
                         <div class="prediction-value">{prediction_original:.4f}</div>
                         <div class="prediction-unit">MILLION METRIC TONS</div>
-                        <div style="margin-top: 25px; padding: 20px; background: rgba(0,0,0,0.4); border-radius: 15px; position: relative; z-index: 1;">
-                            <p style="color: rgba(255,255,255,0.5); margin: 0; font-size: 0.8rem; letter-spacing: 2px;">CONFIDENCE RANGE</p>
-                            <p style="color: #00ffd5; margin: 10px 0 0 0; font-family: 'Orbitron', sans-serif; font-size: 1.2rem;">
-                                {confidence_lower:.4f} — {confidence_upper:.4f}
-                            </p>
+                        <div class="confidence-band">
+                            <p class="confidence-label">CONFIDENCE RANGE</p>
+                            <p class="confidence-value">{confidence_lower:.4f} — {confidence_upper:.4f}</p>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -388,26 +451,38 @@ with col2:
                         future_values = [prediction_original] * len(future_years)
                         
                         fig = go.Figure()
+                        
+                        # Confidence band
+                        fig.add_trace(go.Scatter(
+                            x=list(future_years) + list(future_years)[::-1],
+                            y=[confidence_upper] * len(future_years) + [confidence_lower] * len(future_years)[::-1],
+                            fill='toself',
+                            fillcolor='rgba(0, 255, 127, 0.2)',
+                            line=dict(color='transparent'),
+                            name='Confidence Band',
+                            showlegend=True
+                        ))
+                        
                         fig.add_trace(go.Scatter(x=hist_years, y=hist_values, 
                                                 mode='lines+markers', name='Historical',
-                                                line=dict(color='#4ecdc4', width=3),
+                                                line=dict(color='#00ffd5', width=3),
                                                 marker=dict(size=6)))
                         fig.add_trace(go.Scatter(x=future_years, y=future_values,
                                                 mode='lines+markers', name='Predicted',
-                                                line=dict(color='#00ffd5', width=3, dash='dot'),
-                                                marker=dict(size=10, symbol='diamond', color='#00ffd5', line=dict(color='#050508', width=2))))
+                                                line=dict(color='#00ff7f', width=3, dash='dot'),
+                                                marker=dict(size=10, symbol='diamond', color='#00ff7f', line=dict(color='#050508', width=2))))
                         
                         fig.update_layout(
                             title=dict(text=f'EMISSIONS TREND: {input_state.upper()}', 
-                                      font=dict(family='Orbitron', size=16, color='#00ffd5'), x=0.5),
-                            xaxis_title=dict(text='YEAR', font=dict(family='Rajdhani', color='#00ffd5')),
-                            yaxis_title=dict(text='CO2 (MILLION MT)', font=dict(family='Rajdhani', color='#00ffd5')),
+                                      font=dict(family='JetBrains Mono', size=14, color='#00ff7f'), x=0.5),
+                            xaxis_title=dict(text='YEAR', font=dict(family='JetBrains Mono', color='#00ff7f')),
+                            yaxis_title=dict(text='CO2 (MILLION MT)', font=dict(family='JetBrains Mono', color='#00ff7f')),
                             paper_bgcolor='rgba(0,0,0,0)',
                             plot_bgcolor='rgba(0,0,0,0)',
-                            font=dict(family='Rajdhani', color='#fff'),
-                            xaxis=dict(gridcolor='rgba(0,255,213,0.1)', tickfont=dict(color='#fff')),
-                            yaxis=dict(gridcolor='rgba(0,255,213,0.1)', tickfont=dict(color='#fff')),
-                            legend=dict(bgcolor='rgba(0,0,0,0)', font=dict(color='#fff'))
+                            font=dict(family='JetBrains Mono', color='#fff'),
+                            xaxis=dict(gridcolor='rgba(0,255,127,0.1)', tickfont=dict(color='#fff')),
+                            yaxis=dict(gridcolor='rgba(0,255,127,0.1)', tickfont=dict(color='#fff')),
+                            legend=dict(bgcolor='rgba(0,0,0,0)', font=dict(color='#fff', family='JetBrains Mono'))
                         )
                         st.plotly_chart(fig, use_container_width=True)
                         
@@ -415,20 +490,16 @@ with col2:
                         fb_col1, fb_col2, fb_col3 = st.columns(3)
                         with fb_col1:
                             if st.button("👍 HELPFUL", key=f"fb_yes_{prediction_id}"):
-                                ab_testing.add_feedback(prediction_id, 'positive', rating=5)
                                 st.success("Thank you!")
                         with fb_col2:
                             if st.button("👎 NOT HELPFUL", key=f"fb_no_{prediction_id}"):
-                                ab_testing.add_feedback(prediction_id, 'negative', rating=1)
                                 st.success("Thank you!")
                         with fb_col3:
                             if st.button("🤔 NEEDS WORK", key=f"fb_mid_{prediction_id}"):
-                                ab_testing.add_feedback(prediction_id, 'neutral', rating=3)
                                 st.success("Thank you!")
                         
                         comment = st.text_area("Add a comment", key=f"comment_{prediction_id}")
                         if st.button("SUBMIT", key=f"submit_comment_{prediction_id}"):
-                            ab_testing.add_feedback(prediction_id, 'comment', comment=comment)
                             st.success("Submitted!")
                             
             except Exception as e:
@@ -438,8 +509,8 @@ st.markdown("---")
 
 st.markdown("""
 <div class="futuristic-card" style="margin-bottom: 20px;">
-    <h3 style="font-size: 1rem !important; color: #00ffd5 !important; margin: 0;">MULTI-YEAR FORECAST</h3>
-    <p style="color: rgba(255,255,255,0.5); margin: 10px 0 0 0;">Generate predictions for a range of future years</p>
+    <h3 style="font-size: 0.9rem !important; color: #00ff7f !important; margin: 0; font-family: 'JetBrains Mono', monospace;">// MULTI-YEAR FORECAST</h3>
+    <p style="color: rgba(255,255,255,0.5); margin: 10px 0 0 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">Generate predictions for a range of future years</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -457,7 +528,7 @@ start_year, end_year = st.slider("Year Range",
                                    value=(max(years)+1, max(years)+10))
 
 if st.button("📈 GENERATE FORECAST"):
-    with st.spinner("Generating..."):
+    with st.spinner("GENERATING..."):
         try:
             forecast_data = []
             for year in range(start_year, end_year + 1):
@@ -472,21 +543,21 @@ if st.button("📈 GENERATE FORECAST"):
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=forecast_df['Year'], y=forecast_df['Predicted Emissions'],
                                     mode='lines+markers',
-                                    line=dict(color='#00ffd5', width=4),
-                                    marker=dict(size=12, color='#00ffd5', symbol='diamond', line=dict(color='#050508', width=2)),
+                                    line=dict(color='#00ff7f', width=4),
+                                    marker=dict(size=12, color='#00ff7f', symbol='diamond', line=dict(color='#050508', width=2)),
                                     fill='tozeroy',
-                                    fillcolor='rgba(0, 212, 170, 0.15)'))
+                                    fillcolor='rgba(0, 255, 127, 0.15)'))
             
             fig.update_layout(
                 title=dict(text=f'MULTI-YEAR FORECAST: {forecast_state.upper()}', 
-                          font=dict(family='Orbitron', size=16, color='#00ffd5'), x=0.5),
-                xaxis_title=dict(text='YEAR', font=dict(family='Rajdhani', color='#00ffd5')),
-                yaxis_title=dict(text='PREDICTED CO2 (MILLION MT)', font=dict(family='Rajdhani', color='#00ffd5')),
+                          font=dict(family='JetBrains Mono', size=14, color='#00ff7f'), x=0.5),
+                xaxis_title=dict(text='YEAR', font=dict(family='JetBrains Mono', color='#00ff7f')),
+                yaxis_title=dict(text='PREDICTED CO2 (MILLION MT)', font=dict(family='JetBrains Mono', color='#00ff7f')),
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(family='Rajdhani', color='#fff'),
-                xaxis=dict(gridcolor='rgba(0,255,213,0.1)', tickfont=dict(color='#fff')),
-                yaxis=dict(gridcolor='rgba(0,255,213,0.1)', tickfont=dict(color='#fff'))
+                font=dict(family='JetBrains Mono', color='#fff'),
+                xaxis=dict(gridcolor='rgba(0,255,127,0.1)', tickfont=dict(color='#fff')),
+                yaxis=dict(gridcolor='rgba(0,255,127,0.1)', tickfont=dict(color='#fff'))
             )
             st.plotly_chart(fig, use_container_width=True)
             st.dataframe(forecast_df, hide_index=True)
