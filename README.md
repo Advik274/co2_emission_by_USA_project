@@ -9,6 +9,8 @@ The project uses historical emissions data from the U.S. Energy Information Admi
 ![Plotly](https://img.shields.io/badge/Plotly-5.15%2B-green)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.13%2B-orange)
 
+**Live app:** [us-carbon-emission.streamlit.app](https://us-carbon-emission.streamlit.app/)
+
 ## What This App Does
 
 - Shows historical CO2 emissions trends for selected U.S. states.
@@ -236,8 +238,9 @@ For Streamlit Cloud:
 streamlit_app/app.py
 ```
 
-4. Keep `runtime.txt` set to Python 3.12 so TensorFlow installs from a supported wheel.
-5. Ensure large model files are available through Git LFS or rely on the trend-based fallback.
+4. Select Python 3.12 in Streamlit's advanced deployment settings for full TensorFlow/ANN support.
+5. On Python 3.14, TensorFlow is skipped and ANN requests use the app's trend-based fallback.
+6. Ensure large model files are available through Git LFS or rely on the trend-based fallback.
 
 ## Current Limitations
 
