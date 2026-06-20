@@ -4,7 +4,7 @@ An interactive Streamlit application for exploring state-level carbon dioxide em
 
 The project uses historical emissions data from the U.S. Energy Information Administration (EIA), research notebooks for preprocessing and model training, and a Streamlit UI for dashboard analytics, forecasts, model comparison, and usage telemetry.
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28%2B-red)
 ![Plotly](https://img.shields.io/badge/Plotly-5.15%2B-green)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.13%2B-orange)
@@ -236,7 +236,8 @@ For Streamlit Cloud:
 streamlit_app/app.py
 ```
 
-4. Ensure large model files are available through Git LFS or rely on the trend-based fallback.
+4. Keep `runtime.txt` set to Python 3.12 so TensorFlow installs from a supported wheel.
+5. Ensure large model files are available through Git LFS or rely on the trend-based fallback.
 
 ## Current Limitations
 
