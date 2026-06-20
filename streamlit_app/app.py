@@ -372,8 +372,10 @@ with tab4:
         locationmode='USA-states',
         colorscale=[[0, '#050508'], [0.3, '#003320'], [0.6, '#00cc66'], [1.0, '#00ff7f']],
         colorbar=dict(
-            title='M MT CO₂',
-            titlefont=dict(family='JetBrains Mono', color='#aaa', size=11),
+            title=dict(
+                text='M MT CO₂',
+                font=dict(family='JetBrains Mono', color='#aaa', size=11),
+            ),
             tickfont=dict(family='JetBrains Mono', color='#aaa', size=10),
             bgcolor='rgba(5,5,8,0.8)',
             bordercolor='rgba(0,255,127,0.3)',
