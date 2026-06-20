@@ -273,25 +273,33 @@ with col2:
                     
                     if "Random Forest" in model_type:
                         model_path = os.path.join(base_dir, 'models', 'rf', 'random_forest.joblib')
-                        if os.path.exists(model_path):
-                            model = joblib.load(model_path)
-                            prediction_log = model.predict([features])[0]
-                            ab_testing.track_event('prediction_ui', 'prediction_made', {'model': 'RF', 'variant': variant})
-                        else:
-                            prediction_log = features[0] + 0.1
+                        try:
+                            if os.path.exists(model_path):
+                                model = joblib.load(model_path)
+                                prediction_log = float(model.predict([features])[0])
+                                ab_testing.track_event('prediction_ui', 'prediction_made', {'model': 'RF', 'variant': variant})
+                            else:
+                                prediction_log = float(features[0]) + 0.1
+                        except Exception as model_err:
+                            st.warning(f"Model file could not be loaded — using trend estimate. ({model_err})")
+                            prediction_log = float(features[0]) + 0.1
                     elif "XGBoost" in model_type:
                         model_path = os.path.join(base_dir, 'models', 'xgboost', 'xgboost_regressor_model.joblib')
-                        if os.path.exists(model_path):
-                            model = joblib.load(model_path)
-                            prediction_log = model.predict([features])[0]
-                            ab_testing.track_event('prediction_ui', 'prediction_made', {'model': 'XGBoost', 'variant': variant})
-                        else:
-                            prediction_log = features[0] + 0.1
+                        try:
+                            if os.path.exists(model_path):
+                                model = joblib.load(model_path)
+                                prediction_log = float(model.predict([features])[0])
+                                ab_testing.track_event('prediction_ui', 'prediction_made', {'model': 'XGBoost', 'variant': variant})
+                            else:
+                                prediction_log = float(features[0]) + 0.1
+                        except Exception as model_err:
+                            st.warning(f"Model file could not be loaded — using trend estimate. ({model_err})")
+                            prediction_log = float(features[0]) + 0.1
                     elif "ANN" in model_type:
                         st.info("Using approximation for ANN.")
-                        prediction_log = features[0] + np.random.uniform(-0.1, 0.1)
+                        prediction_log = float(features[0]) + np.random.uniform(-0.1, 0.1)
                         ab_testing.track_event('prediction_ui', 'prediction_made', {'model': 'ANN', 'variant': variant})
-                    
+
                     prediction_original = utils.inverse_log_transform(prediction_log)
                     
                     last_hist = df[(df['state-name'] == input_state) & 
